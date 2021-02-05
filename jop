@@ -57,27 +57,27 @@ help() {
     echo "hello jop v$jop_version"
     echo " "
     echo "usage: jop <command> <args>"
-    echo "  fetch        .. Fetch joplin notes from remote url"
-    echo "  sync         .. Fetch and update joplin note"
+    echo "  f            .. Fetch joplin notes from remote url"
+    echo "  s            .. Sync, fetch and update joplin note"
     echo "    -i 5m      .. Sync interval (every 5m)"
-    echo "  reset        .. Reset dir of joplin notes"
-    echo "  upgrade      .. Upgrade jop"
-    echo "  -- git <cmd> .. Execute git command"
-    echo "  help         .. List available subcommands"
+    echo "  r            .. Reset dir of joplin notes"
+    echo "  u            .. Upgrade jop"
+    echo "  h            .. Help, list available subcommands"
+    echo "  <cmd>        .. execute command on notes dir"
 }
 
 # main -----------------------------------------------------
 
 case "$cmd" in
-"reset")
+"reset"|"r")
     rm $conf_file
     ;;
-"fetch")
+"fetch"|"f")
     init
     cd $dir
     git pull
     ;;
-"sync")
+"sync"|"s")
     if [ "$3" == "-i" ]; then
         interval=5m
         if [ -n "$4" ]; then
@@ -91,10 +91,10 @@ case "$cmd" in
         sync
     fi
     ;;
-"upgrade")
+"upgrade"|"u")
     curl -L https://raw.githubusercontent.com/7hens/jop/main/jop -o jop
     ;;
-"help")
+"help"|"h")
     help
     ;;
 "--")
@@ -102,8 +102,8 @@ case "$cmd" in
     $2 $3 $4 $5 $6 $7 $8 $9
     ;;
 *)
-    help
-    init
+    cd $dir
+    $*
     ;;
 esac
 
