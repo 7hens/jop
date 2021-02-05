@@ -54,13 +54,13 @@ help() {
     echo "hello jop v$jop2_ver"
     echo " "
     echo "usage: jop <command> <args>"
-    echo "  f            .. Fetch joplin notes from remote url"
-    echo "  s            .. Sync, fetch and update joplin note"
-    echo "    -i 5m      .. Sync interval (every 5m)"
-    echo "  r            .. Reset dir of joplin notes"
-    echo "  u            .. Upgrade jop"
-    echo "  h            .. Help, list available subcommands"
-    echo "  <cmd>        .. execute command on notes dir"
+    echo "  f        .. Fetch joplin notes from remote url"
+    echo "  s        .. Sync, fetch and update joplin note"
+    echo "    -i 5m  .. Sync interval (every 5m)"
+    echo "  r        .. Reset dir of joplin notes"
+    echo "  u        .. Upgrade jop"
+    echo "  h        .. Help, list available subcommands"
+    echo "  <cmd>    .. execute command on notes dir"
 }
 
 # main -----------------------------------------------------
