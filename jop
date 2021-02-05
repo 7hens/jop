@@ -48,7 +48,7 @@ sync() {
     init
     cd $dir
     git add .
-    git commit -m "$date"
+    git commit -m "$(date)"
     git pull
     git push
 }
