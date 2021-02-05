@@ -18,4 +18,5 @@ chmod +x ./jop
 | `./jop sync -i 5m` | Sync interval (every 5m)           |
 | `./jop reset`      | Reset dir of joplin notes          |
 | `./jop upgrade`    | Upgrade jop                        |
+| `-- git <cmd>`     | Execute git comman                 |
 | `./jop help`       | List available subcommands         |

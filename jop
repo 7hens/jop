@@ -55,12 +55,13 @@ help() {
     echo "hello jop v$jop_version"
     echo " "
     echo "usage: jop <command> <args>"
-    echo "  fetch    .. Fetch joplin notes from remote url"
-    echo "  sync     .. Fetch and update joplin note"
-    echo "    -i 5m  .. Sync interval (every 5m)"
-    echo "  reset    .. Reset dir of joplin notes"
-    echo "  upgrade  .. Upgrade jop"
-    echo "  help     .. List available subcommands"
+    echo "  fetch        .. Fetch joplin notes from remote url"
+    echo "  sync         .. Fetch and update joplin note"
+    echo "    -i 5m      .. Sync interval (every 5m)"
+    echo "  reset        .. Reset dir of joplin notes"
+    echo "  upgrade      .. Upgrade jop"
+    echo "  -- git <cmd> .. Execute git command"
+    echo "  help         .. List available subcommands"
 }
 
 # main -----------------------------------------------------
@@ -93,6 +94,9 @@ case "$cmd" in
     ;;
 "help")
     help
+    ;;
+"--")
+    $3 $4 $5 $6 $7 $8 $9
     ;;
 *)
     help
