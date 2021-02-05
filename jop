@@ -1,0 +1,80 @@
+#! /bin/bash
+
+cmd=$1
+jop_user_dir=$(dirname $0)/.jop
+conf_file=$jop_user_dir/jop.conf
+
+conf_get() {
+    local file=$conf_file
+    local key=$1
+    sed -n "s#^$key=\(.*\)\$#\1#p" $file
+}
+
+conf_set() {
+    local file=$conf_file
+    local key=$1
+    local value=$2
+    local match=$(sed -n "s#^$key=.*\$#\0#p" $file)
+    if [ "$match" = "" ]; then
+        echo $key=$value>>$file
+    else
+        sed -i "s#^$key=.*\$#$key=$value#g" $file
+    fi
+}
+
+dir=$(conf_get dir)
+
+init() {
+    mkdir -p $jop_user_dir
+    touch $conf_file
+
+    while [ "$dir" = "" ]; do
+        read -p "please set dir: " dir
+        conf_set dir $dir
+    done
+    mkdir -p $dir
+    cd $dir
+    while [ ! -d "$dir/.git" ]; do
+        remote_url=
+        while [ "$remote_url" = "" ]; do
+            read -p "please set remote_url: " remote_url
+        done
+        git clone $remote_url $dir
+        mkdir -p $dir/locks
+    done
+}
+
+sync() {
+    git add .
+    git commit -m "$date"
+    git pull
+    git push
+}
+
+case "$cmd" in
+"reset")
+    rm $conf_file
+    ;;
+"fetch")
+    init
+    git pull
+    ;;
+"sync")
+    init
+    if [ "$3" == "-i" ]; then
+        while true; do
+            sync
+            sleep 5m
+        done
+    else
+        sync
+    fi
+    ;;
+*)
+    echo jop sync .... git sync
+    echo ..... -i .... git sync per 5m
+    echo jop fetch ... git pull
+    init
+    ;;
+esac
+
