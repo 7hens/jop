@@ -5,7 +5,8 @@ Use git to synchronize joplin notes
 ## install
 
 ```shell
-curl -L https://raw.githubusercontent.com/7hens/jop/main/jop -o jop
+curl -L https://git.io/Jtggu -o jop
+chmod +x ./jop
 ```
 
 ## command
