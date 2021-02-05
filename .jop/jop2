@@ -1,0 +1,111 @@
+#!/bin/bash
+
+jop_dir=$(dirname $0)
+jop2_ver=1
+jop_conf=$jop_dir/jop.conf
+jop2=$jop_dir/jop2
+dir=
+
+conf_get() {
+    local file=$jop_conf
+    local key=$1
+    sed -n "s#^$key=\(.*\)\$#\1#p" $file
+}
+
+conf_set() {
+    local file=$jop_conf
+    local key=$1
+    local value=$2
+    local match=$(sed -n "s#^$key=.*\$#\0#p" $file)
+    if [ "$match" = "" ]; then
+        echo $key=$value>>$file
+    else
+        sed -i "s#^$key=.*\$#$key=$value#g" $file
+    fi
+}
+
+init() {
+    while [ "$dir" = "" ]; do
+        read -p "please set dir: " dir
+        conf_set dir $dir
+    done
+    mkdir -p $dir
+    mkdir -p $dir/locks
+    cd $dir
+    while [ ! -d "$dir/.git" ]; do
+        remote_url=
+        while [ "$remote_url" = "" ]; do
+            read -p "please set remote_url: " remote_url
+        done
+        git clone $remote_url $dir
+    done
+}
+
+sync() {
+    init
+    cd $dir
+    git add .
+    git commit -m "$(date)"
+    git pull
+    git push
+}
+
+help() {
+    echo "hello jop v$jop2_ver"
+    echo " "
+    echo "usage: jop <command> <args>"
+    echo "  f            .. Fetch joplin notes from remote url"
+    echo "  s            .. Sync, fetch and update joplin note"
+    echo "    -i 5m      .. Sync interval (every 5m)"
+    echo "  r            .. Reset dir of joplin notes"
+    echo "  u            .. Upgrade jop"
+    echo "  h            .. Help, list available subcommands"
+    echo "  <cmd>        .. execute command on notes dir"
+}
+
+# main -----------------------------------------------------
+
+cmd=$1
+touch $jop_conf
+dir=$(conf_get dir)
+
+case "$cmd" in
+"reset"|"r")
+    rm $jop_conf
+    ;;
+"fetch"|"f")
+    init
+    cd $dir
+    git pull
+    ;;
+"sync"|"s")
+    if [ "$3" == "-i" ]; then
+        interval=5m
+        if [ -n "$4" ]; then
+            interval=$4
+        fi
+        while true; do
+            sync
+            sleep $interval
+        done
+    else
+        sync
+    fi
+    ;;
+"u")
+    conf_set jop_ver $2
+    conf_set jop2_ver $jop2_ver
+    ;;
+"help"|"h")
+    help
+    ;;
+"--")
+    cd $dir
+    $2 $3 $4 $5 $6 $7 $8 $9
+    ;;
+*)
+    cd $dir
+    $*
+    ;;
+esac
+
