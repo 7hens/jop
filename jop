@@ -2,6 +2,7 @@
 
 cmd=$1
 jop_user_dir=$(dirname $0)/.jop
+jop_version=0.1
 conf_file=$jop_user_dir/jop.conf
 
 conf_get() {
@@ -22,12 +23,11 @@ conf_set() {
     fi
 }
 
+mkdir -p $jop_user_dir
+touch $conf_file
 dir=$(conf_get dir)
 
 init() {
-    mkdir -p $jop_user_dir
-    touch $conf_file
-
     while [ "$dir" = "" ]; do
         read -p "please set dir: " dir
         conf_set dir $dir
@@ -51,6 +51,20 @@ sync() {
     git push
 }
 
+help() {
+    echo "hello jop v$jop_version"
+    echo " "
+    echo "usage: jop <command> <args>"
+    echo "  fetch    .. Fetch joplin notes from remote url"
+    echo "  sync     .. Fetch and update joplin note"
+    echo "    -i 5m  .. Sync interval (every 5m)"
+    echo "  reset    .. Reset dir of joplin notes"
+    echo "  upgrade  .. Upgrade jop"
+    echo "  help     .. List available subcommands"
+}
+
+# main -----------------------------------------------------
+
 case "$cmd" in
 "reset")
     rm $conf_file
@@ -62,18 +76,26 @@ case "$cmd" in
 "sync")
     init
     if [ "$3" == "-i" ]; then
+        interval=5m
+        if [ -n "$4" ]; then
+            interval=$4
+        fi
         while true; do
             sync
-            sleep 5m
+            sleep $interval
         done
     else
         sync
     fi
     ;;
+"upgrade")
+    curl -L https://raw.githubusercontent.com/7hens/jop/main/jop -o jop
+    ;;
+"help")
+    help
+    ;;
 *)
-    echo jop sync .... git sync
-    echo ..... -i .... git sync per 5m
-    echo jop fetch ... git pull
+    help
     init
     ;;
 esac
