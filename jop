@@ -46,6 +46,7 @@ init() {
 
 sync() {
     init
+    cd $dir
     git add .
     git commit -m "$date"
     git pull
@@ -73,6 +74,7 @@ case "$cmd" in
     ;;
 "fetch")
     init
+    cd $dir
     git pull
     ;;
 "sync")
