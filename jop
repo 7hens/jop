@@ -7,7 +7,7 @@ dir=
 
 upgrade() {
     echo upgrading jop2 ...
-    curl -L https://raw.githubusercontent.com/7hens/jop/main/.jop/jop -o $jop2
+    curl -L https://raw.githubusercontent.com/7hens/jop/main/.jop/jop2 -o $jop2
     chmod +x $jop2
     $jop2 u $jop_ver
 }
