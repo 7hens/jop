@@ -33,6 +33,7 @@ init() {
         conf_set dir $dir
     done
     mkdir -p $dir
+    mkdir -p $dir/locks
     cd $dir
     while [ ! -d "$dir/.git" ]; do
         remote_url=
@@ -40,7 +41,6 @@ init() {
             read -p "please set remote_url: " remote_url
         done
         git clone $remote_url $dir
-        mkdir -p $dir/locks
     done
 }
 
