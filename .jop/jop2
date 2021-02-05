@@ -1,7 +1,7 @@
 #!/bin/bash
 
-jop_dir=$(dirname $0)
 jop2_ver=1
+jop_dir=$(dirname $0)
 jop_conf=$jop_dir/jop.conf
 jop2=$jop_dir/jop2
 dir=
