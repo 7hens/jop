@@ -72,6 +72,8 @@ dir=$(conf_get dir)
 case "$cmd" in
 "reset"|"r")
     conf_set dir ""
+    dir=
+    init
     ;;
 "fetch"|"f")
     init
