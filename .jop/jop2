@@ -46,7 +46,7 @@ sync() {
     cd $dir
     git add .
     git commit -m "$(date)"
-    git pull
+    git pull --allow-unrelated-histories -s ours
     git push
 }
 
@@ -78,7 +78,7 @@ case "$cmd" in
 "fetch"|"f")
     init
     cd $dir
-    git pull
+    git pull --allow-unrelated-histories -s ours
     ;;
 "sync"|"s")
     if [ "$3" == "-i" ]; then
