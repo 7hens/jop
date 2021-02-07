@@ -41,12 +41,16 @@ init() {
     done
 }
 
+fetch() {
+    cd $dir
+    git pull --no-edit --allow-unrelated-histories -X diff-algorithm=patience
+}
+
 sync() {
-    init
     cd $dir
     git add .
     git commit -m "$(date)"
-    git pull --allow-unrelated-histories -X diff-algorithm=patience
+    fetch
     git push
 }
 
@@ -77,10 +81,10 @@ case "$cmd" in
     ;;
 "fetch"|"f")
     init
-    cd $dir
-    git pull --allow-unrelated-histories -X diff-algorithm=patience
+    fetch
     ;;
 "sync"|"s")
+    init
     if [ "$3" == "-i" ]; then
         interval=5m
         if [ -n "$4" ]; then
