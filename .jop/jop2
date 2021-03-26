@@ -29,9 +29,6 @@ init() {
         read -p "please set dir: " dir
         conf_set dir $dir
     done
-    mkdir -p $dir
-    mkdir -p $dir/locks
-    cd $dir
     while [ ! -d "$dir/.git" ]; do
         remote_url=
         while [ "$remote_url" = "" ]; do
@@ -59,7 +56,7 @@ help() {
     echo " "
     echo "usage: jop <command> <args>"
     echo "  f        .. Fetch joplin notes from remote url"
-    echo "  s        .. Sync, fetch and update joplin note"
+    echo "  s        .. Sync, fetch and update joplin notes"
     echo "    -i 5m  .. Sync interval (every 5m)"
     echo "  r        .. Reset dir of joplin notes"
     echo "  u        .. Upgrade jop"
@@ -118,3 +115,4 @@ case "$cmd" in
     ;;
 esac
 
+mkdir -p $dir/locks
