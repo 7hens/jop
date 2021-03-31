@@ -20,13 +20,14 @@ conf_set() {
     if [ "$match" = "" ]; then
         echo $key=$value>>$file
     else
-        sed -i "s#^$key=.*\$#$key=$value#g" $file
+        sed -i "" "s#^$key=.*\$#$key=$value#g" $file
     fi
 }
 
 init() {
     while [ "$dir" = "" ]; do
         read -p "please set dir: " dir
+        dir=$(bash -c "echo $dir")
         conf_set dir $dir
     done
     while [ ! -d "$dir/.git" ]; do
@@ -115,4 +116,6 @@ case "$cmd" in
     ;;
 esac
 
-mkdir -p $dir/locks
+if [ -d "$dir" ]; then
+    mkdir -p $dir/locks
+fi
