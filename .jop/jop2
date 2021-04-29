@@ -41,7 +41,7 @@ init() {
 
 fetch() {
     cd $dir
-    git pull --no-edit --allow-unrelated-histories -X diff-algorithm=
+    git pull --no-edit --allow-unrelated-histories -X diff-algorithm=patience
     if [ $? != 0 ]; then
         git checkout --ours .
         git add .
