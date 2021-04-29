@@ -20,7 +20,7 @@ conf_set() {
     if [ "$match" = "" ]; then
         echo $key=$value>>$file
     else
-        sed -i'' "s#^$key=.*\$#$key=$value#g" $file
+        sed -i'' -e "s#^$key=.*\$#$key=$value#g" $file
     fi
 }
 
