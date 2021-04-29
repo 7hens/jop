@@ -45,7 +45,7 @@ fetch() {
     if [ $? != 0 ]; then
         git checkout --ours .
         git add .
-        git merge --continue
+        git commit -m "MERGE: $(date)"
     fi
 }
 
