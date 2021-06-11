@@ -86,7 +86,7 @@ case "$cmd" in
     init
     fetch
     ;;
-"sync"|"s")
+"sync"|"s"|"")
     init
     if [ "$3" == "-i" ]; then
         interval=5m
@@ -112,9 +112,6 @@ case "$cmd" in
     cd $dir
     shift
     $*
-    ;;
-"")
-    init
     ;;
 *)
     cd $dir
