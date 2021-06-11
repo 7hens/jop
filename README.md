@@ -12,6 +12,7 @@ curl -L https://gitee.com/7hens/jop/raw/main/jop -o jop && chmod +x jop
 
 | command       | description                          |
 | ------------- | ------------------------------------ |
+| `jop`         | Sync                                 |
 | `jop f`       | Fetch joplin notes from remote url   |
 | `jop s`       | Sync, fetch and update joplin notes  |
 | `jop s -i 5m` | Sync interval (every 5m)             |
