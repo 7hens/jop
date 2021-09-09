@@ -4,8 +4,16 @@ Use git to synchronize joplin notes
 
 ## install
 
+Uses Bash (or Git bash on Windows):
+
 ```shell
 curl -L https://gitee.com/7hens/jop/raw/main/jop -o jop && chmod +x jop
+```
+
+Or You just clone the repository, and add the dir to your PATH environment:
+
+```shell
+git clone https://gitee.com/7hens/jop.git
 ```
 
 ## command
