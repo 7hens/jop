@@ -1,32 +1,13 @@
 #!/bin/bash
 
-jop_ver=1
-jop_dir=$(dirname $0)/.jop
-jop2=$jop_dir/jop2
-dir=
+cur_file=$(readlink -f $BASH_SOURCE)
+cur_dir=$(dirname $cur_file)
+conf_file=$cur_dir/__local/jop.conf
+temp_dir=$TMPDIR
+notes_dir=
 
-upgrade() {
-    echo upgrading jop2 ...
-    echo " "
-    curl -L https://gitee.com/7hens/jop/raw/main/.jop/jop2 -o $jop2
-    chmod +x $jop2
-    $jop2 u $jop_ver
-}
+for f in `ls $cur_dir/src/*.sh`; do
+    source $f
+done
 
-# main -----------------------------------------------------
-
-cmd=$1
-mkdir -p $jop_dir
-
-case "$cmd" in
-"upgrade"|"u")
-    upgrade
-    ;;
-*)
-    if [ ! -f "$jop2" ]; then
-        upgrade
-    fi
-    $jop2 $*
-    ;;
-esac
-
+main $*

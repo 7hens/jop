@@ -6,13 +6,13 @@ jop_conf=$jop_dir/jop.conf
 jop2=$jop_dir/jop2
 dir=
 
-conf_get() {
+conf-get() {
     local file=$jop_conf
     local key=$1
     sed -n "s#^$key=\(.*\)\$#\1#p" $file
 }
 
-conf_set() {
+conf-set() {
     local file=$jop_conf
     local key=$1
     local value=$2
@@ -28,7 +28,7 @@ init() {
     while [ "$dir" = "" ]; do
         read -p "please set dir: " dir
         dir=$(bash -c "echo $dir")
-        conf_set dir $dir
+        conf-set dir $dir
     done
     while [ ! -d "$dir/.git" ]; do
         remote_url=
@@ -85,11 +85,11 @@ res-del() {
 
 cmd=$1
 touch $jop_conf
-dir=$(conf_get dir)
+dir=$(conf-get dir)
 
 case "$cmd" in
 "reset"|"r")
-    conf_set dir ""
+    conf-set dir ""
     dir=
     init
     ;;
@@ -113,8 +113,8 @@ case "$cmd" in
     fi
     ;;
 "u")
-    conf_set jop_ver $2
-    conf_set jop2_ver $jop2_ver
+    conf-set jop_ver $2
+    conf-set jop2_ver $jop2_ver
     ;;
 "help"|"h")
     help
