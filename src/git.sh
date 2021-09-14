@@ -16,6 +16,18 @@ git-sync() {
     git push
 }
 
+git-head-branch() {
+    echo $(git rev-parse --abbrev-ref HEAD)
+}
+
+git-branch-m() {
+    local new_branch=$1
+    local old_branch=$(git-head-branch)
+    git branch -m $new_branch
+    git push origin -u $new_branch
+    git push origin -d $old_branch
+}
+
 git-orphan() {
     local head_branch=$(git-head-branch)
     git checkout --orphan orphan-$head_branch
