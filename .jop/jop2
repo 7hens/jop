@@ -67,7 +67,18 @@ help() {
     echo "  r        .. Reset dir of joplin notes"
     echo "  u        .. Upgrade jop"
     echo "  h        .. Help, list available subcommands"
+    echo "jop res-del <id>"
+    echo "           .. delete a spec resource"
     echo "  <cmd>    .. execute command on notes dir"
+}
+
+res-del() {
+    if [ -z $1 ]; then
+        echo "ERROR: a resource id is required" 1>&2
+        return 1
+    fi
+    sqlite3 ~/.config/joplin-desktop/database.sqlite "delete from resources where id = '$1'"
+    echo ok, please restart your joplin app to check it out
 }
 
 # main -----------------------------------------------------
