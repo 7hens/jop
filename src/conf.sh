@@ -47,7 +47,7 @@ jop-get-remote() {
     if [ $(jop-is-expired remote_conf_update_time +5 minutes) ]; then
         # echo update conf file
         curl https://gitee.com/7hens/jop/raw/dev/jop.conf > $remote_conf_file 2>/dev/null
-        echo ''>> $remote_conf_file
+        # echo ''>> $remote_conf_file
         jop-set remote_conf_update_time "$(date)"
     fi
     conf-get "$remote_conf_file" "$@"
