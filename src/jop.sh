@@ -2,6 +2,7 @@
 
 jop-init() {
   file-new $conf_file
+  file-new $remote_conf_file
   notes_dir=$(jop-get notes_dir)
 
   while [ "$notes_dir" = "" ]; do
@@ -49,25 +50,4 @@ jop-res-del() {
 
 jop-edit() {
     code $cur_dir/
-}
-
-jop-get() {
-    conf-get $conf_file $*
-}
-
-jop-set() {
-    conf-set $conf_file $*
-}
-
-jop-conf() {
-    local file=$conf_file
-    if [ "$1" == '-e' ]; then
-        vim -n $file
-    else
-        cat $file
-    fi
-}
-
-jop-ver() {
-    conf-get $cur_dir/jop.conf jop_ver
 }
