@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cur_dir=$(cd $(dirname $BASH_SOURCE); pwd)
+cur_dir=$(cd $(dirname $BASH_SOURCE) > /dev/null; pwd)
 cur_file=$cur_dir/$(basename $BASH_SOURCE)
 conf_file=$cur_dir/__local/jop.conf
 temp_dir=$TMPDIR
