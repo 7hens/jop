@@ -6,6 +6,8 @@ main() {
 
   if [ "$cmd" == "reinit" ]; then
     jop-reinit $*
+  elif [ "$cmd" == "test" ]; then
+    test $*
   else
       jop-init
       cd $notes_dir
@@ -17,9 +19,9 @@ main() {
       elif [[ "$(type -t $cmd)" == function || $(which $cmd) != "" ]]; then
           $cmd $*
       elif [ -z $1 ]; then
-          conf-get $cmd
+          jop-get $cmd
       else
-          conf-set $cmd $1
+          jop-set $cmd $1
       fi
   fi
 }
@@ -29,4 +31,13 @@ upgrade() {
     echo " "
     cd $cur_dir
     git-sync
+}
+
+test() {
+    echo '-----------------------------------'
+    echo hello, jop v$(jop-ver)
+    echo '-----------------------------------'
+    echo cur_dir: $cur_dir
+    echo cur_fie: $cur_file
+    echo conf_file: $conf_file
 }

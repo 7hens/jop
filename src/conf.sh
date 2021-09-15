@@ -1,17 +1,9 @@
 #!/bin/bash
 
-conf() {
-    if [ "$1" == '-e' ]; then
-        vim -n $conf_file
-    else
-        cat $conf_file
-    fi
-}
-
 conf-set() {
-    local file=$conf_file
-    local key=$1
-    local value=$2
+    local file=$1
+    local key=$2
+    local value=$3
     if [ -z $key ]; then
         err conf-set $file: empty key
         return 1
@@ -20,16 +12,14 @@ conf-set() {
     if [ "$match" == "" ]; then
         echo $key=$value>>$file
     else
-        file-replace $file $key $value
+        sed -i'' -e "s#^$key=.*\$#$key=$value#g" $file
     fi
-    # file-w2u $file
-    # echo $value
 }
 
 conf-get() {
-    local file=$conf_file
-    local key=$1
-    local fallback=$2
+    local file=$1
+    local key=$2
+    local fallback=$3
     if [ -z $key ]; then
         err ERROR: conf-get $file: empty key
         return 1

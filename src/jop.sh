@@ -2,11 +2,11 @@
 
 jop-init() {
   file-new $conf_file
-  notes_dir=$(conf-get notes_dir)
+  notes_dir=$(jop-get notes_dir)
 
   while [ "$notes_dir" = "" ]; do
       read -p "please set notes_dir: " notes_dir
-      conf-set notes_dir $notes_dir
+      jop-set notes_dir $notes_dir
   done
 
   while [ ! -d "$notes_dir/.git" ]; do
@@ -23,15 +23,15 @@ jop-init() {
 }
 
 jop-reinit() {
-    conf-set notes_dir ''
     notes_dir=
+    jop-set notes_dir $notes_dir
     jop-init
 }
 
 jop-sync() {
     cd $notes_dir
     git-sync
-    local git_orphan=$(conf-get git_orphan 0)
+    local git_orphan=$(jop-get git_orphan 0)
     if [ "$git_orphan" == "1" ]; then
         git-orphan
     fi
@@ -45,4 +45,29 @@ jop-res-del() {
     fi
     sqlite3 ~/.config/joplin-desktop/database.sqlite "delete from resources where id = '$res_id'"
     echo ok, please restart your joplin app to check it out
+}
+
+jop-edit() {
+    code $cur_dir/
+}
+
+jop-get() {
+    conf-get $conf_file $*
+}
+
+jop-set() {
+    conf-set $conf_file $*
+}
+
+jop-conf() {
+    local file=$conf_file
+    if [ "$1" == '-e' ]; then
+        vim -n $file
+    else
+        cat $file
+    fi
+}
+
+jop-ver() {
+    conf-get $cur_dir/jop.conf jop_ver
 }
