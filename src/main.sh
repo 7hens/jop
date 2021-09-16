@@ -1,19 +1,24 @@
 #!/bin/bash
 
 main() {
-    cmd=$1
+    local cmd=$1
     shift
 
-    if [ "$cmd" == "reinit" ]; then
+    if [ "$cmd" = "reinit" ]; then
         jop-reinit "$@"
-    elif [ "$cmd" == "test" ]; then
-        test "$@"
+    elif [ "$cmd" = "test" ]; then
+        jop-test "$@"
     else
-        jop-init
-        cd $notes_dir
-        
-        if [ $(jop-is-expired last_upgrade_time +2 hours) ]; then
-            upgrade
+        if [ $cmd = "--" ]; then
+            cmd=$1
+            shift
+        else
+            jop-init
+            cd $notes_dir
+
+            if $(jop-is-expired last_upgrade_time +2 hours); then
+                upgrade
+            fi
         fi
 
         if [[ -z "$cmd" || "$cmd" == "main" ]]; then
@@ -41,7 +46,7 @@ upgrade() {
     jop-set last_upgrade_time "$(date)"
 }
 
-test() {
+jop-test() {
     echo '-----------------------------------'
     echo hello, jop v$(jop-ver)
     echo '-----------------------------------'
