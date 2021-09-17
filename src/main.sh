@@ -20,9 +20,11 @@ main() {
             fi
         fi
 
-        if [ "$(type -t jop-$cmd)" == function ]; then
+        if [ -z "$cmd" ]; then
+            jop-sync
+        elif [ "$(type -t "jop-$cmd")" == function ]; then
             jop-$cmd "$@"
-        elif $(which $cmd > /dev/null); then
+        elif $(which "$cmd" > /dev/null); then
             $cmd "$@"
         elif [ -z $1 ]; then
             jop-get $cmd

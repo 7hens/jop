@@ -34,7 +34,7 @@ is-mac() {
 os-x() {
     local cmd=$1
     shift
-    if $(is-mac && which g$cmd > /dev/null); then
+    if $(is-mac && which "g$cmd" > /dev/null); then
         g$cmd "$@"
     else
         $cmd "$@"

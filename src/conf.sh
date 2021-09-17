@@ -5,7 +5,7 @@ conf-set() {
     local key=$2
     local value=$3
     if [ -z $key ]; then
-        err conf-set $file: empty key
+        echo conf-set $file: empty key 1>&2
         return 1
     fi
     local match=$(sed -n "s#^$key=.*\$#\0#p" $file)
@@ -21,7 +21,7 @@ conf-get() {
     local key=$2
     local fallback=$3
     if [ -z $key ]; then
-        err ERROR: conf-get $file: empty key
+        echo ERROR: conf-get $file: empty key 1>&2
         return 1
     fi
     local value=$(sed -n "s#^$key=\(.*\)\$#\1#p" $file)
