@@ -24,6 +24,8 @@ file-mkx() {
     chmod +x $dest
 }
 
+cmd=$1
+
 if [ "$cmd" = "u" ]; then
     cd $jop_dir
     git clone https://gitee.com/7hens/jop.git
