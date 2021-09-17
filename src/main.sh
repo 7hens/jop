@@ -22,7 +22,7 @@ main() {
 
         if [ "$(type -t jop-$cmd)" == function ]; then
             jop-$cmd "$@"
-        elif $(which $cmd); then
+        elif $(which $cmd > /dev/null); then
             $cmd "$@"
         elif [ -z $1 ]; then
             jop-get $cmd
