@@ -42,13 +42,9 @@ jop-get() {
 }
 
 jop-get-remote() {
-    # local remote_conf_update_time=$(jop-get remote_conf_update_time "$(date)")
-    # local expired_time=$(date -d "$remote_conf_update_time +5 minutes")
     if $(jop-is-expired remote_conf_update_time +5 minutes); then
-        # echo update conf file
         cd $cur_dir
         curl https://gitee.com/7hens/jop/raw/$(git-head-branch)/jop.conf > $remote_conf_file 2>/dev/null
-        # echo ''>> $remote_conf_file
         jop-set remote_conf_update_time "$(date)"
     fi
     conf-get "$remote_conf_file" "$@"
@@ -57,7 +53,7 @@ jop-get-remote() {
 jop-expired-time() {
     local key=$1
     local remaining_time=${@:2}
-    local record=$(jop-get $key "$(date)")
+    local record=$(jop-get $key "$(os-x date -d @0)")
     os-x date -d "$record $remaining_time"
 }
 

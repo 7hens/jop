@@ -6,8 +6,6 @@ conf_file=$cur_dir/__local/jop.conf
 remote_conf_file=$cur_dir/__local/remote.conf
 temp_dir=$TMPDIR
 notes_dir=
-TRUE=0
-FALSE=1
 
 for f in `ls $cur_dir/src/*.sh`; do
     source $f
