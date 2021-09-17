@@ -1,5 +1,14 @@
 #!/bin/bash
 
+jop-test() {
+    echo '-----------------------------------'
+    echo hello, jop v$(jop-ver)
+    echo '-----------------------------------'
+    echo cur_dir: $cur_dir
+    echo cur_fie: $cur_file
+    echo conf_file: $conf_file
+}
+
 jop-init() {
   file-new $conf_file
   file-new $remote_conf_file
@@ -38,6 +47,21 @@ jop-sync() {
     fi
 }
 
+jop-upgrade() {
+    if [ $(jop-ver -r) -lt $(jop-ver) ]; then
+        return
+    fi
+    echo upgrading jop...
+    echo " "
+    cd $cur_dir
+    git-sync
+    jop-set last_upgrade_time "$(date)"
+}
+
+jop-edit() {
+    code $cur_dir/
+}
+
 jop-res-del() {
     local res_id=$1
     if [ -z $res_id ]; then
@@ -46,8 +70,4 @@ jop-res-del() {
     fi
     sqlite3 ~/.config/joplin-desktop/database.sqlite "delete from resources where id = '$res_id'"
     echo ok, please restart your joplin app to check it out
-}
-
-jop-edit() {
-    code $cur_dir/
 }

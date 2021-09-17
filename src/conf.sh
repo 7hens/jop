@@ -57,14 +57,14 @@ jop-expired-time() {
     local key=$1
     local remaining_time=${@:2}
     local record=$(jop-get $key "$(date)")
-    jop-x date -d "$record $remaining_time"
+    os-x date -d "$record $remaining_time"
 }
 
 jop-is-expired() {
     local key=$1
     local remaining_time=${@:2}
-    local expired_time=$(jop-expired-time "$key" $remaining_time)
-    test $(date +%s) -ge $(jop-x date -d "$expired_time" +%s)
+    local expired_time=$(jop-expired-time "$key" "$remaining_time")
+    test $(date +%s) -ge $(os-x date -d "$expired_time" +%s)
     return $?
 }
 

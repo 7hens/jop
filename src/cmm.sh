@@ -1,7 +1,8 @@
 #!/bin/bash
 
 os-env() {
-  unameOut="$(uname -s)"
+  local unameOut="$(uname -s)"
+  local machine=
   case "${unameOut}" in
       Linux*)     machine=Linux;;
       Darwin*)    machine=Mac;;
@@ -13,7 +14,8 @@ os-env() {
 }
 
 os-name() {
-  unameOut="$(uname -s)"
+  local unameOut="$(uname -s)"
+  local machine=
   case "${unameOut}" in
       Linux*)     machine=Linux;;
       Darwin*)    machine=Mac;;
@@ -29,7 +31,7 @@ is-mac() {
     return $?
 }
 
-jop-x() {
+os-x() {
     local cmd=$1
     shift
     if $(is-mac && which g$cmd > /dev/null); then
