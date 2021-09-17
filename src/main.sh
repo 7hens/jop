@@ -9,7 +9,7 @@ main() {
     elif [ "$cmd" = "test" ]; then
         jop-test "$@"
     else
-        if [ $cmd = "--" ]; then
+        if [ "$cmd" = "--" ]; then
             cmd=$1
             shift
         else
