@@ -71,3 +71,13 @@ jop-res-del() {
     sqlite3 ~/.config/joplin-desktop/database.sqlite "delete from resources where id = '$res_id'"
     echo ok, please restart your joplin app to check it out
 }
+
+jop-replace() {
+    local origin=$1
+    local dest=$2
+    if [ -z "$origin" ]; then
+        return 0
+    fi
+    cd ~/.config/joplin-desktop
+    ls edit-*.md | xargs sed -i'' -e "s#$origin#$dest#g"
+}
