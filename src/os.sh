@@ -49,6 +49,6 @@ os-kill() {
     batch-end
     # cmd -/c "TASKKILL /F /IM $task_name /T"
   else
-    ps -ef | grep $task_name | awk '{print $1}' | xargs kill
+    ps -ef | grep $task_name | awk '{print $2}' | xargs kill
   fi
 }
