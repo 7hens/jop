@@ -37,3 +37,7 @@ git-orphan() {
     git branch -m $head_branch
     git push -f origin $head_branch
 }
+
+git-last-changed-time() {
+    os-x stat -c %y $(git status -s | awk '{ print $2 }' | head -1)
+}

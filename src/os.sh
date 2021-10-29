@@ -40,3 +40,15 @@ os-x() {
         $cmd "$@"
     fi
 }
+
+os-kill() {
+  local task_name=$1
+  if [ $(os-name) == Windows ]; then
+    batch-begin
+    tasklist | grep $task_name | awk '{print $2}' | xargs taskkill /F /T /PID
+    batch-end
+    # cmd -/c "TASKKILL /F /IM $task_name /T"
+  else
+    ps -a | grep $task_name | awk '{print $1}' | xargs kill
+  fi
+}

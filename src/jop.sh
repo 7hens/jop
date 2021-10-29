@@ -47,6 +47,32 @@ jop-sync() {
     fi
 }
 
+jop-interval() {
+    local sync_interval=$(test -n "$1" && echo $1 || echo 1m)
+    while true; do
+        local last_changed_time=$(git-last-changed-time 2> /dev/null)
+        if [[ $? == 0 && -n "$last_changed_time" ]]; then
+            local remaining_time="+5 minutes"
+            local expired_timestamp=$(os-x date -d "$last_changed_time $remaining_time" +%s)
+            # echo $last_changed_time / $(date +%s), $expired_timestamp
+            if [ $(date +%s) -ge $expired_timestamp ]; then
+                echo sync...
+                git-sync
+            fi
+        fi
+        os-x sleep $sync_interval
+    done
+}
+
+jop-start() {
+    # nohup jop-interval > /dev/null 2> /dev/null &
+    jop-interval > /dev/null 2> /dev/null &
+}
+
+jop-stop() {
+    os-kill jop
+}
+
 jop-upgrade() {
     if [ $(jop-ver -r) -lt $(jop-ver) ]; then
         return
