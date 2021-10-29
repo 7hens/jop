@@ -50,6 +50,11 @@ jop-sync() {
 jop-interval() {
     local sync_interval=$(test -n "$1" && echo $1 || echo 5m)
     local should_sync=1
+    local is_interval_started=$(jop-get is_interval_started 0)
+    if [ "$is_interval_started" == 1 ]; then
+        return 0
+    fi
+    jop-set is_interval_started 1
     while true; do
         local last_changed_time=$(git-last-changed-time 2> /dev/null)
         if [[ $? == 0 && -n "$last_changed_time" ]]; then
@@ -63,6 +68,7 @@ jop-interval() {
         test "$should_sync" == 1 && git-sync
         os-x sleep $sync_interval
     done
+    jop-set is_interval_started 0
 }
 
 jop-start() {
@@ -71,7 +77,8 @@ jop-start() {
 }
 
 jop-stop() {
-    os-kill jop
+    os-kill /jop > /dev/null 2> /dev/null &
+    jop-set is_interval_started 0
 }
 
 jop-upgrade() {
