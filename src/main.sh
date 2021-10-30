@@ -21,7 +21,7 @@ main() {
         fi
 
         if [ -z "$cmd" ]; then
-            jop-start
+            jop-interval
         elif [ "$(type -t "jop-$cmd")" == function ]; then
             jop-$cmd "$@"
         elif $(which "$cmd" > /dev/null); then

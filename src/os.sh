@@ -41,6 +41,14 @@ os-x() {
     fi
 }
 
+batch-begin() {
+  export MSYS_NO_PATHCONV=1
+}
+
+batch-end() {
+  export MSYS_NO_PATHCONV=0
+}
+
 os-kill() {
   local task_name=$1
   if [ $(os-name) == Windows ]; then
