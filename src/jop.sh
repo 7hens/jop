@@ -55,6 +55,7 @@ jop-interval() {
     local sync_interval=$(test -n "$1" && echo $1 || echo 5m)
     local should_sync=1
     while true; do
+        should_sync=1
         local last_changed_time=$(git-last-changed-time 2> /dev/null)
         if [[ $? == 0 && -n "$last_changed_time" ]]; then
             local remaining_time="+5 minutes"
