@@ -43,12 +43,12 @@ jop-fix() {
 
 jop-sync() {
     cd $notes_dir
-    jop-fix
     git-sync
     local git_orphan=$(jop-get git_orphan 0)
     if [ "$git_orphan" == "1" ]; then
         git-orphan
     fi
+    jop-fix
 }
 
 jop-interval() {
