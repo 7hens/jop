@@ -26,10 +26,7 @@ jop-init() {
       done
       git clone $remote_url $notes_dir
   done
-
-  if [ -d "$notes_dir" ]; then
-      mkdir -p $notes_dir/locks
-  fi
+  jop-fix
 }
 
 jop-reinit() {
@@ -38,8 +35,15 @@ jop-reinit() {
     jop-init
 }
 
+jop-fix() {
+  if [ -d "$notes_dir" ]; then
+      mkdir -p $notes_dir/locks
+  fi
+}
+
 jop-sync() {
     cd $notes_dir
+    jop-fix
     git-sync
     local git_orphan=$(jop-get git_orphan 0)
     if [ "$git_orphan" == "1" ]; then
@@ -60,7 +64,7 @@ jop-interval() {
                 should_sync=0
             fi
         fi
-        test "$should_sync" == 1 && git-sync
+        test "$should_sync" == 1 && jop-sync
         os-x sleep $sync_interval
     done
 }
