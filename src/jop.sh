@@ -43,6 +43,7 @@ jop-fix() {
 
 jop-sync() {
     cd $notes_dir
+    echo -e "\033[32msync at $(date) \033[m..."
     git-sync
     local git_orphan=$(jop-get git_orphan 0)
     if [ "$git_orphan" == "1" ]; then
