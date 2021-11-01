@@ -71,20 +71,19 @@ jop-interval() {
     done
 }
 
-# jop-start() {
-#     # nohup jop-interval > /dev/null 2> /dev/null &
-#     jop-interval > /dev/null 2> /dev/null
-# }
+jop-start() {
+    jop-stop
+    local task_pid=$(jop-interval > /dev/null 2> /dev/null & echo $!)
+    jop-set task_pid $task_pid
+}
 
-# jop-stop() {
-#     local jop_task=$(jop-task)
-#     test -n "$jop_task" && kill $jop_task
-#     jop-set is_interval_started 0
-# }
-
-# jop-task() {
-#     jobs -l | grep jop | awk '{print $2}'
-# }
+jop-stop() {
+    local task_pid=$(jop-get task_pid)
+    test -n "$task_pid" \
+        && test -n "$(ps -ef | grep jop | grep $task_pid)" \
+        && kill $task_pid
+    jop-set task_pid
+}
 
 jop-upgrade() {
     if [ $(jop-ver -r) -lt $(jop-ver) ]; then
