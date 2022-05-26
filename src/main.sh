@@ -13,7 +13,7 @@ main() {
             shift
         else
             jop-init
-            cd $notes_dir
+            cd $repo_dir
 
             if $(jop-is-expired last_upgrade_time +2 hours); then
                 jop-upgrade

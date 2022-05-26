@@ -12,26 +12,27 @@ jop-test() {
 jop-init() {
   file-new $conf_file
   file-new $remote_conf_file
-  notes_dir=$(jop-get notes_dir)
+  repo_dir=$(jop-get repo_dir)
+  notes_dir=$($repo_dir/$(jop-get notes_dir))
 
-  while [ "$notes_dir" = "" ]; do
-      read -p "please set notes_dir: " notes_dir
-      jop-set notes_dir $notes_dir
+  while [ "$repo_dir" = "" ]; do
+      read -p "please set repo_dir: " repo_dir
+      jop-set repo_dir $repo_dir
   done
 
-  while [ ! -d "$notes_dir/.git" ]; do
+  while [ ! -d "$repo_dir/.git" ]; do
       local remote_url=
       while [ "$remote_url" = "" ]; do
           read -p "please set remote_url: " remote_url
       done
-      git clone $remote_url $notes_dir
+      git clone $remote_url $repo_dir
   done
   jop-fix
 }
 
 jop-reinit() {
-    notes_dir=
-    jop-set notes_dir $notes_dir
+    repo_dir=
+    jop-set repo_dir $repo_dir
     jop-init
 }
 
@@ -42,7 +43,7 @@ jop-fix() {
 }
 
 jop-sync() {
-    cd $notes_dir
+    cd $repo_dir
     echo -e "\033[32msync at $(date) \033[m..."
     git-sync
     local git_orphan=$(jop-get git_orphan 0)

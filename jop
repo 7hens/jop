@@ -5,6 +5,7 @@ cur_file=$cur_dir/$(basename $BASH_SOURCE)
 conf_file=$cur_dir/__local/jop.conf
 remote_conf_file=$cur_dir/__local/remote.conf
 temp_dir=$TMPDIR
+repo_dir=
 notes_dir=
 
 for f in `ls $cur_dir/src/*.sh`; do
