@@ -13,7 +13,7 @@ jop-init() {
   file-new $conf_file
   file-new $remote_conf_file
   repo_dir=$(jop-get repo_dir)
-  notes_dir=$($repo_dir/$(jop-get notes_dir))
+  notes_dir="$repo_dir/$(jop-get notes_dir)"
 
   while [ "$repo_dir" = "" ]; do
       read -p "please set repo_dir: " repo_dir
